@@ -7,23 +7,13 @@ STATE_COLOR = {
     Unavailable: "red"
 }
 
-canvas.addEventListener("click", function(e) {
-    let seat = seatAt(e.offsetX, e.offsetY);
-    if (seat) {
-        if (seat.isAvailable()) {
-            seat.toggleState();  // Si disponible, cambiar entre elegido y no elegido.
-        } else {
-            notAvailableAlert();
-        }
-    }
-    
-})
 
 class Seat {
-    constructor(posX, posY, state) {
+    constructor(posX, posY, state, size) {
         this.posX = posX;
         this.posY = posY;
         this.state = state;  // Available, Unavailable, Selected
+        this.size = size;
     }
 
     isAvailable() {
@@ -46,16 +36,134 @@ class Seat {
     draw() {
         ctx.beginPath();
         ctx.fillStyle = STATE_COLOR[this.state];
-        ctx.arc(this.posX, this.posY, 50, 0, 2 * Math.PI);
+        ctx.arc(this.posX, this.posY, this.size, 0, 2 * Math.PI);
         ctx.fill()
     }
 }
 
-let seat = new Seat(100, 100, "Available");
+class Seating {
+    constructor(seatData) {
+        this.seatData = seatData;  // json {[{col:1, row:2, state:"Available"}, ...]}
+        this.seatSize = 10;
+        this.seats = this.createSeats()  // lista conteniendo los objetos de asiento
+        
+        console.log(this.seatSize);
+    }
 
-function seatAt(x, y) {
-    return seat;
+    createSeats() {
+        let seatData = this.seatData.seats;  // Una lista
+        let rows = this.seatData.numberOfRows;
+        let cols = this.seatData.numberOfColumns;
+        
+        let width = canvas.width;
+        let height = canvas.height;
+        let margin = Math.round(canvas.width * 0.1);  // Cambiar esto para que no asuma cuadrados
+        let seats = [];
+
+        seatData.forEach(seat => {
+            let colSpacing = (width - 2 * margin) / cols
+            let rowSpacing = (height - 2 * margin) / rows
+            
+            let dynamicX = (seat.col - 1) * colSpacing + margin;
+            let dynamicY = (seat.row - 1) * rowSpacing + margin;
+
+            seats.push(new Seat(dynamicX, dynamicY, seat.state, this.seatSize));
+        });
+
+        return seats;
+    }
+
+    seatAt(x, y) {
+        for (let i = 0; i < this.seats.length ; i++){
+            let seat = this.seats[i];
+            
+            let seatX = seat.posX;
+            let seatY = seat.posY;
+            
+            let xMatches = x > seatX - seat.size && x < seatX + seat.size;
+            let yMatches = y > seatY - seat.size && y < seatY + seat.size;
+            if (xMatches && yMatches) {
+                console.log("Matches!");
+                return seat;
+            }
+        };
+    }
+
+    handleClick(e) {
+        let seat = seating.seatAt(e.offsetX, e.offsetY);
+    
+        if (seat) {
+            if (seat.isAvailable()) {
+                seat.toggleState();  // Si disponible, cambiar entre elegido y no elegido.
+            }
+    }
+    
 }
 
-seat.draw()
+    draw() {
+        this.seats.forEach(seat => { seat.draw() });
+    }
+}
 
+
+function loadSeating(id) {
+    // Lo debería buscar de la base de datos. PLACEHOLDER
+    data = {
+        numberOfRows: 2,
+        numberOfColumns: 4,
+        seats:[
+            {
+            row: 1,
+            col: 1,
+            state: "Available"
+            },
+            {
+            row: 1,
+            col: 2,
+            state: "Available"
+            },
+            {
+            row: 1,
+            col: 3,
+            state: "Available"
+            },
+            {
+            row: 1,
+            col: 4,
+            state: "Available"
+            },
+            {
+            row: 2,
+            col: 1,
+            state: "Unavailable"
+            },
+            {
+            row: 2,
+            col: 2,
+            state: "Unavailable"
+            },
+            {
+            row: 2,
+            col: 3,
+            state: "Unavailable"
+            },
+            {
+            row: 2,
+            col: 4,
+            state: "Available"
+            }
+        ]
+    }
+    return data;
+}
+
+
+let id = "placeholder";
+
+let seatingData = loadSeating(id);
+
+let seating = new Seating(seatingData);
+
+seating.draw()
+
+canvas.addEventListener("click", seating.handleClick)
