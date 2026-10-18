@@ -9,11 +9,10 @@ const STATE_COLOR = Object.freeze({
 
 
 class Seat {
-    constructor(posX, posY, state, size) {
-        this.posX = posX;
-        this.posY = posY;
+    constructor(row, col, state) {
+        this.row = row;
+        this.col = col;
         this.state = state;  // Available, Unavailable, Selected
-        this.size = size;
     }
 
     isAvailable() {
@@ -26,78 +25,92 @@ class Seat {
         } else if (this.state === "Selected") {
             this.state = "Available";
         }
-        this.draw();
-    }
-
-    draw() {
-        ctx.beginPath();
-        ctx.fillStyle = STATE_COLOR[this.state];
-        ctx.arc(this.posX, this.posY, this.size, 0, 2 * Math.PI);
-        ctx.fill()
     }
 }
 
 class Seating {
     constructor(seatData) {
-        this.seatData = seatData;  // json {[{col:1, row:2, state:"Available"}, ...]}
-        this.seatSize = 10;
-        this.seats = this.createSeats()  // lista conteniendo los objetos de asiento
+        this.seatData = seatData;
+        this.rows = seatData.numberOfRows;
+        this.cols = seatData.numberOfColumns;
+        this.seats = []  // lista conteniendo los objetos de asiento
         
-        console.log(this.seatSize);
+        for (const seat of seatData.seats) {
+            this.seats.push(new Seat(seat.row, seat.col, seat.state))
+        }
     }
 
-    createSeats() {
-        let seatData = this.seatData.seats;  // Una lista
-        let rows = this.seatData.numberOfRows;
-        let cols = this.seatData.numberOfColumns;
-        
-        let width = canvas.width;
-        let height = canvas.height;
-        let margin = Math.round(canvas.width * 0.1);  // Cambiar esto para que no asuma cuadrados
-        let seats = [];
-
-        seatData.forEach(seat => {
-            let colSpacing = (width - 2 * margin) / cols
-            let rowSpacing = (height - 2 * margin) / rows
-            
-            let dynamicX = (seat.col - 1) * colSpacing + margin * 1.5;
-            let dynamicY = (seat.row - 1) * rowSpacing + margin * 1.5;
-
-            seats.push(new Seat(dynamicX, dynamicY, seat.state, this.seatSize));
-        });
-
-        return seats;
+    seatAt(row, col) {
+        let seat = this.seats[(row - 1) * this.cols + col - 1];  // assume ordered
+        if (seat.row === row && seat.col === col) return seat;
+        return this.seats.find(seat => seat.row === row && seat.col === col);  // if that didn't work
     }
-
-    seatAt(x, y) {
-        for (const seat of this.seats){
-            let seatX = seat.posX;
-            let seatY = seat.posY;
-            
-            let xMatches = x > seatX - seat.size && x < seatX + seat.size;
-            let yMatches = y > seatY - seat.size && y < seatY + seat.size;
-            if (xMatches && yMatches) {
-                return seat;
-            }
-        };
-    }
-
-    handleClick(e) {
-        let seat = this.seatAt(e.offsetX, e.offsetY);
-    
-        if (seat) {
-            if (seat.isAvailable()) {
-                seat.toggleState();  // Si disponible, cambiar entre elegido y no elegido.
-            }
-    }
-    
-}
 
     draw() {
         this.seats.forEach(seat => { seat.draw() });
     }
 }
 
+class SeatingRenderer {
+    constructor(seating) {
+        this.seating = seating;
+        this.seatSize = 10;
+        this.margin = 20;
+    }
+    
+    getSeatPosition(seat) {
+        const colSpacing = (canvas.width - this.margin * 2) / this.seating.cols;
+        const rowSpacing = (canvas.height - this.margin * 2) / this.seating.rows;
+
+        const x = this.margin + (seat.col - 1) * colSpacing + colSpacing / 2;
+        const y = this.margin + (seat.row - 1) * rowSpacing + rowSpacing / 2;
+
+        return { x, y };
+    }
+
+    drawSeat(seat) {
+        const {x: posX, y: posY} = this.getSeatPosition(seat);
+
+        ctx.beginPath();
+        ctx.fillStyle = STATE_COLOR[seat.state];
+        ctx.arc(posX, posY, this.seatSize, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    draw() {
+        this.seating.seats.forEach(seat => this.drawSeat(seat));
+    }
+}
+
+class SeatingController {
+    constructor(seating, renderer) {
+        this.seating = seating;
+        this.renderer = renderer;
+    }
+
+    handleClick(e) {
+        let seat = this.seatAt(e.offsetX, e.offsetY);
+        console.log(seat);
+        if (seat && seat.isAvailable()) {
+            seat.toggleState();  // Si disponible, cambiar entre elegido y no elegido.
+            this.renderer.draw()
+        }
+    }
+
+    seatAt(x, y) {
+        for (const seat of this.seating.seats) {
+            const {x: seatX, y: seatY} = this.renderer.getSeatPosition(seat);
+
+            const xMatches = x > seatX - this.renderer.seatSize && x < seatX + this.renderer.seatSize;
+            const yMatches = y > seatY - this.renderer.seatSize && y < seatY + this.renderer.seatSize;
+
+            if (xMatches && yMatches) {
+                return seat;
+            }
+        }
+        return null;
+    }
+}
 
 function loadSeating(id) {
     // Lo debería buscar de la base de datos. PLACEHOLDER
@@ -129,8 +142,11 @@ let seatingData = loadSeating(id);
 
 let seating = new Seating(seatingData);
 
-seating.draw()
+let seatingRenderer = new SeatingRenderer(seating);
+seatingRenderer.draw()
+
+let seatingController = new SeatingController(seating, seatingRenderer)
 
 canvas.addEventListener("click", (e) => {
-    seating.handleClick(e);
+    seatingController.handleClick(e);
 })
