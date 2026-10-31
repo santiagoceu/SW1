@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SineKerido - Pago</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="pago.js" defer></script>
+</head>
+<body class="login-body">
+
+    <header class="main-header">
+        <h1>SineKerido</h1>
+    </header>
+
+    <main class="login-container">
+        <div class="login-box pago-box">
+
+            <!-- Formulario de pago -->
+            <section id="seccion-pago">
+                <div class="pago-cabecera">
+                    <h2>Menú de pago</h2>
+                    <span class="precio-total" id="precio">0,00 €</span>
+                </div>
+
+                <ul class="resumen-lineas" id="resumen"></ul>
+
+                <form id="form-pago" action="#" method="POST" novalidate autocomplete="on">
+
+                    <div class="form-group">
+                        <label for="tarjeta">Tarjeta:</label>
+                        <input type="text" id="tarjeta" name="tarjeta" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="23">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="caducidad">Caducidad:</label>
+                        <input type="text" id="caducidad" name="caducidad" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" autocomplete="cc-name" placeholder="Nombre del titular">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">Código CVV:</label>
+                        <input type="password" id="cvv" name="cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="***" maxlength="4">
+                    </div>
+
+                    <div class="fila-puntos">
+                        <label class="check" for="usar-puntos">
+                            <input type="checkbox" id="usar-puntos">
+                            <span>Usar mis puntos</span>
+                        </label>
+                        <span class="puntos-disponibles">Puntos disponibles: <strong id="puntos">0</strong></span>
+                    </div>
+                    <p class="nota-puntos" id="nota-puntos"></p>
+
+                    <p id="mensaje" class="mensaje" role="alert" aria-live="polite"></p>
+
+                    <button type="submit" class="btn-submit" id="btn-pagar">Pagar <span id="btn-total"></span></button>
+                </form>
+
+                <div class="login-footer">
+                    <p><a href="index.html">Volver al menú principal</a></p>
+                </div>
+            </section>
+
+            <!-- Confirmación (se muestra tras pagar) -->
+            <section id="confirmacion" class="confirmacion" hidden>
+                <div class="confirmacion-icono" aria-hidden="true">&#10003;</div>
+                <h2>¡Pago realizado!</h2>
+                <p class="confirmacion-texto" id="confirmacion-texto"></p>
+                <p class="confirmacion-ref">Referencia: <strong id="confirmacion-ref"></strong></p>
+                <a href="index.html" class="btn-submit btn-enlace">Volver al menú principal</a>
+            </section>
+
+        </div>
+    </main>
+
+</body>
+</html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SineKerido - Iniciar Sesión</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="login.js" defer></script>
 </head>
 <body class="login-body">
 
@@ -13,27 +14,41 @@
     </header>
 
     <main class="login-container">
-        
-        <div class="login-box">
-            <h2>Iniciar Sesión</h2>
 
-            <form id="login-form" action="#" method="POST">
-                
+        <div class="login-box">
+            <h2 id="titulo-formulario">Iniciar Sesión</h2>
+
+            <form id="login-form" action="#" method="POST" novalidate>
+
+                <!-- Solo visible al crear cuenta -->
+                <div class="form-group" id="grupo-nombre" hidden>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Tu nombre">
+                </div>
+
                 <div class="form-group">
                     <label for="email">Gmail:</label>
-                    <input type="email" id="email" name="email" required placeholder="tucorreo@gmail.com">
+                    <input type="email" id="email" name="email" required autocomplete="email" placeholder="tucorreo@gmail.com">
                 </div>
 
                 <div class="form-group">
                     <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required placeholder="********">
+                    <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="********">
                 </div>
 
-                <button type="submit" class="btn-submit">Entrar</button>
+                <!-- Solo visible al crear cuenta -->
+                <div class="form-group" id="grupo-password2" hidden>
+                    <label for="password2">Repetir contraseña:</label>
+                    <input type="password" id="password2" name="password2" autocomplete="new-password" placeholder="********">
+                </div>
+
+                <p id="mensaje" class="mensaje" role="alert" aria-live="polite"></p>
+
+                <button type="submit" class="btn-submit" id="btn-enviar">Entrar</button>
             </form>
 
             <div class="login-footer">
-                <p>¿No tienes cuenta? <a href="#">Pulsa aquí</a></p>
+                <p><span id="texto-cambio">¿No tienes cuenta?</span> <a href="#" id="enlace-cambio">Pulsa aquí</a></p>
             </div>
 
         </div>

@@ -149,4 +149,44 @@ let seatingController = new SeatingController(seating, seatingRenderer)
 
 canvas.addEventListener("click", (e) => {
     seatingController.handleClick(e);
+    actualizarResumen();
 })
+
+// ---------------------------------------------------------------
+// Resumen y pago
+// ---------------------------------------------------------------
+const PRECIO_ENTRADA = 8.5;  // euros por entrada (PLACEHOLDER: debería venir de la base de datos)
+
+function asientosElegidos() {
+    return seating.seats.filter(seat => seat.state === "Selected");
+}
+
+function actualizarResumen() {
+    const n = asientosElegidos().length;
+    const texto = document.getElementById("selected-seats");
+    if (n === 0) {
+        texto.textContent = "Ningún asiento seleccionado";
+        return;
+    }
+    const total = (n * PRECIO_ENTRADA).toFixed(2).replace(".", ",");
+    texto.textContent = n + (n === 1 ? " asiento" : " asientos") + " · " + total + " €";
+}
+
+document.getElementById("payment-button").addEventListener("click", () => {
+    const elegidos = asientosElegidos();
+    if (elegidos.length === 0) {
+        document.getElementById("selected-seats").textContent = "Elige al menos un asiento para pagar.";
+        return;
+    }
+
+    // Guardamos la selección para que la lea pago.html
+    const pelicula = new URLSearchParams(window.location.search).get("pelicula");
+    localStorage.setItem("sk_entradas", JSON.stringify({
+        pelicula: pelicula,
+        asientos: elegidos.map(seat => ({ row: seat.row, col: seat.col })),
+        precio: PRECIO_ENTRADA
+    }));
+    window.location.href = "pago.html";
+});
+
+actualizarResumen();

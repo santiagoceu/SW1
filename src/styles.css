@@ -1,106 +1,1099 @@
 /*
 ARCHIVO DE CSS. CREAR TODO EL CSS EN ESTE ARCHIVO.
+Tema: cine online (oscuro, rojo carmesí y dorado)
+Páginas: login.html, perfilusuario.html, asientos.html
 */
 
-/* estilo login */
+/* ---------- Variables ---------- */
+:root {
+    --fondo: #0b0b10;
+    --fondo-tarjeta: rgba(24, 24, 32, 0.85);
+    --borde: rgba(255, 255, 255, 0.1);
+    --texto: #f3f3f5;
+    --texto-suave: #a5a5b3;
+    --rojo: #e50914;
+    --rojo-oscuro: #b20710;
+    --dorado: #f5c518;
+    --verde: #3ddc84;
+    --radio: 14px;
+}
+
+/* ---------- Base (todas las páginas) ---------- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif; 
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
+body,
 body.login-body {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: var(--fondo);
+    background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(229, 9, 20, 0.28), transparent 55%),
+        radial-gradient(ellipse at 90% 100%, rgba(245, 197, 24, 0.12), transparent 50%),
+        linear-gradient(180deg, #0b0b10 0%, #14141c 100%);
+    background-attachment: fixed;
+    color: var(--texto);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+/* ---------- Cabecera ---------- */
 .main-header {
     text-align: center;
-    padding: 20px 0;
-    border-bottom: 4px solid #000; 
+    padding: 22px 0;
+    background: rgba(11, 11, 16, 0.75);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--borde);
+    box-shadow: 0 2px 0 var(--rojo), 0 8px 30px rgba(0, 0, 0, 0.5);
     margin-bottom: 50px;
 }
 
 .main-header h1 {
-    font-size: 24px;
-    font-weight: normal;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--rojo), var(--dorado));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
+/* ---------- Contenedor y tarjeta (login, perfil, asientos) ---------- */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1; 
+    flex: 1;
+    padding: 0 16px 50px;
 }
 
 .login-box {
-    border: 5px solid #000; 
-    padding: 40px;
     width: 100%;
-    max-width: 500px; 
-    background-color: #fff;
+    max-width: 460px;
+    padding: 44px 40px;
+    background: var(--fondo-tarjeta);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--borde);
+    border-top: 4px solid var(--rojo);
+    border-radius: var(--radio);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(229, 9, 20, 0.12);
+    animation: aparecer 0.6s ease both;
 }
 
 .login-box h2 {
-    font-size: 22px;
+    font-size: 26px;
+    font-weight: 700;
     margin-bottom: 30px;
-    font-weight: normal;
+    text-align: center;
 }
 
+/* ---------- Formulario ---------- */
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 24px;
 }
 
 .form-group label {
     display: block;
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin-bottom: 8px;
 }
 
 .form-group input {
     width: 100%;
-    padding: 10px;
+    padding: 14px 16px;
     font-size: 16px;
-    border: 1px solid #ccc; 
-    border-radius: 4px;
+    color: var(--texto);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
     outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.form-group input::placeholder {
+    color: #6d6d7a;
 }
 
 .form-group input:focus {
-    border-color: #000; 
+    border-color: var(--rojo);
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.2);
 }
 
+/* ---------- Botón principal ---------- */
 .btn-submit {
     width: 100%;
-    padding: 12px;
-    background-color: #000;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--rojo), var(--rojo-oscuro));
     color: #fff;
     border: none;
-    font-size: 18px;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     cursor: pointer;
     margin-bottom: 20px;
-    transition: background-color 0.3s;
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
 .btn-submit:hover {
-    background-color: #333;
+    transform: translateY(-2px);
+    filter: brightness(1.12);
+    box-shadow: 0 12px 28px rgba(229, 9, 20, 0.5);
 }
 
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* ---------- Pie ---------- */
 .login-footer {
     margin-top: 20px;
-    font-size: 16px;
+    font-size: 15px;
+    text-align: center;
+    color: var(--texto-suave);
 }
 
 .login-footer a {
-    color: #000;
-    text-decoration: underline;
-    font-weight: bold;
+    color: var(--dorado);
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
 }
 
 .login-footer a:hover {
-    color: #555;
+    color: #fff;
+    border-color: var(--dorado);
+}
+
+/* =====================================================
+   PERFIL DE USUARIO
+   ===================================================== */
+.perfil-box {
+    max-width: 860px;
+}
+
+.perfil-box h2 {
+    text-align: left;
+    margin-bottom: 28px;
+}
+
+.perfil-layout {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+/* Foto opcional (círculo clicable) */
+.foto {
+    flex: 0 0 200px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    border: 3px solid var(--rojo);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.06);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--texto-suave);
+    font-size: 15px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(229, 9, 20, 0.25);
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.foto:hover,
+.foto:focus-visible {
+    outline: none;
+    transform: scale(1.04);
+    border-color: var(--dorado);
+    box-shadow: 0 0 36px rgba(245, 197, 24, 0.35);
+}
+
+.foto.con-imagen span {
+    display: none;
+}
+
+.datos {
+    flex: 1;
+    min-width: 0;
+}
+
+.datos > * {
+    margin-bottom: 24px;
+}
+
+.datos > *:last-child {
+    margin-bottom: 0;
+}
+
+.bloque {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.bloque .saludo {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.bloque .etiqueta {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin-bottom: 4px;
+}
+
+.puntos {
+    display: inline-block;
+    padding: 2px 14px;
+    margin-left: 6px;
+    border-radius: 999px;
+    background: rgba(245, 197, 24, 0.15);
+    border: 1px solid var(--dorado);
+    color: var(--dorado);
+    font-weight: 800;
+}
+
+.bloque .politica {
+    display: block;
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--texto-suave);
+}
+
+#email {
+    color: var(--dorado);
+    font-weight: 600;
+}
+
+/* Botones secundarios de la cuenta */
+.acciones-perfil {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.enlace {
+    padding: 11px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--texto);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.enlace:hover,
+.enlace:focus-visible {
+    outline: none;
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--dorado);
+    color: var(--dorado);
+}
+
+.enlace.peligro {
+    color: #ff6b73;
+    border-color: rgba(229, 9, 20, 0.5);
+}
+
+.enlace.peligro:hover,
+.enlace.peligro:focus-visible {
+    background: var(--rojo);
+    border-color: var(--rojo);
+    color: #fff;
+}
+
+/* Aviso temporal (el JS le pone color verde oscuro o rojo, por eso lleva fondo claro) */
+#aviso {
+    min-height: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#aviso:not(:empty) {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #eaf7ee;
+    animation: aparecer 0.3s ease both;
+}
+
+/* Ventana de confirmación */
+dialog {
+    margin: auto;
+    width: calc(100% - 32px);
+    max-width: 440px;
+    padding: 28px 30px;
+    background: #17171f;
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    border-top: 4px solid var(--rojo);
+    border-radius: var(--radio);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(3px);
+}
+
+dialog .acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+dialog button {
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--texto);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.2s;
+}
+
+dialog button:hover {
+    filter: brightness(1.25);
+    transform: translateY(-1px);
+}
+
+dialog button.rojo {
+    background: linear-gradient(135deg, var(--rojo), var(--rojo-oscuro));
+    border-color: var(--rojo);
+    color: #fff;
+}
+
+/* =====================================================
+   SELECCIÓN DE ASIENTOS
+   ===================================================== */
+.asientos-box {
+    max-width: 580px;
+    text-align: center;
+}
+
+.asientos-box h2 {
+    margin-bottom: 24px;
+}
+
+/* Pantalla del cine */
+.pantalla {
+    width: 80%;
+    height: 10px;
+    margin: 0 auto 8px;
+    border-radius: 50% / 100% 100% 0 0;
+    background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.15));
+    box-shadow: 0 10px 40px rgba(245, 197, 24, 0.45);
+}
+
+.pantalla-texto {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 12px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+}
+
+/* El canvas NO se escala con CSS (rompería los clics en los asientos).
+   Si la pantalla es estrecha, el contenedor hace scroll horizontal. */
+.canvas-wrap {
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+#select-seats {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px var(--borde);
+}
+
+/* Leyenda */
+.leyenda {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin: 22px 0 6px;
+    font-size: 14px;
+    color: var(--texto-suave);
+}
+
+.leyenda span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.leyenda i {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.leyenda .libre       { background: #3ddc84; }
+.leyenda .seleccionada { background: #f5c518; }
+.leyenda .ocupada     { background: #e50914; }
+
+/* Resumen de asientos elegidos */
+#selected-seats {
+    min-height: 28px;
+    margin: 18px 0 22px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--dorado);
+}
+
+#payment-button {
+    margin-bottom: 0;
+}
+
+/* =====================================================
+   PERFIL DE USUARIO - REGLAS EXTRA
+   ===================================================== */
+
+/* Título con barra de acento */
+.perfil-box h2 {
+    position: relative;
+    padding-bottom: 14px;
+}
+
+.perfil-box h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 64px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--rojo), var(--dorado));
+}
+
+/* Avatar: anillo exterior y texto "Cambiar foto" al pasar el ratón */
+.foto {
+    position: relative;
+    box-shadow:
+        0 0 0 6px rgba(229, 9, 20, 0.12),
+        0 0 30px rgba(229, 9, 20, 0.25);
+}
+
+.foto:hover,
+.foto:focus-visible {
+    box-shadow:
+        0 0 0 6px rgba(245, 197, 24, 0.15),
+        0 0 36px rgba(245, 197, 24, 0.35);
+}
+
+.foto.con-imagen::after {
+    content: "Cambiar foto";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 26px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.75));
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+.foto.con-imagen:hover::after,
+.foto.con-imagen:focus-visible::after {
+    opacity: 1;
+}
+
+/* Bloques de información separados por líneas finas */
+.bloque + .bloque {
+    padding-top: 22px;
+    border-top: 1px solid var(--borde);
+}
+
+.bloque .saludo {
+    background: linear-gradient(90deg, #fff, var(--dorado));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Puntos: insignia con estrella y "pts" */
+.puntos {
+    font-size: 20px;
+    box-shadow: 0 0 18px rgba(245, 197, 24, 0.2);
+}
+
+.puntos::before {
+    content: "\2605 ";
+    font-size: 0.85em;
+}
+
+.puntos::after {
+    content: " pts";
+    font-size: 0.7em;
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+/* Política de puntos como nota destacada */
+.bloque .politica {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dorado);
+    border-radius: 0 8px 8px 0;
+    background: rgba(255, 255, 255, 0.04);
+    line-height: 1.5;
+}
+
+/* Correo: que no desborde la tarjeta si es muy largo */
+#email {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+/* Botones: foco visible y "Borrar cuenta" separado a la derecha */
+.enlace:focus-visible {
+    box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.3);
+}
+
+.enlace.peligro:focus-visible {
+    box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.35);
+}
+
+.enlace:active {
+    transform: translateY(0);
+}
+
+.enlace.peligro {
+    margin-left: auto;
+}
+
+/* Aparición escalonada de los bloques de datos */
+.datos > * {
+    animation: aparecer 0.5s ease both;
+}
+
+.datos > *:nth-child(1) { animation-delay: 0.10s; }
+.datos > *:nth-child(2) { animation-delay: 0.20s; }
+.datos > *:nth-child(3) { animation-delay: 0.30s; }
+.datos > *:nth-child(4) { animation-delay: 0.40s; }
+
+/* Ventana de confirmación: animación de entrada y foco */
+dialog[open] {
+    animation: aparecer 0.25s ease both;
+}
+
+dialog button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.3);
+}
+
+dialog button.rojo:hover {
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.45);
+}
+
+/* Móvil: perfil centrado y botones a ancho completo */
+@media (max-width: 700px) {
+    .perfil-box h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .bloque {
+        text-align: center;
+    }
+    .bloque .politica {
+        text-align: left;
+    }
+    .acciones-perfil {
+        justify-content: center;
+    }
+    .enlace.peligro {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 520px) {
+    .foto {
+        flex-basis: 160px;
+        width: 160px;
+        height: 160px;
+    }
+    .acciones-perfil {
+        flex-direction: column;
+    }
+    .enlace {
+        width: 100%;
+    }
+    dialog {
+        padding: 22px 20px;
+    }
+    dialog .acciones {
+        flex-direction: column-reverse;
+    }
+    dialog button {
+        width: 100%;
+    }
+}
+
+/* Respeta a quien prefiere menos animaciones */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* =====================================================
+   MENÚ PRINCIPAL (index.html)
+   ===================================================== */
+.main-header {
+    position: relative;
+}
+
+/* Icono de usuario (esquina superior derecha) */
+.icono-usuario {
+    position: absolute;
+    top: 50%;
+    right: 28px;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--rojo);
+    border-radius: 50%;
+    color: var(--texto);
+    background-color: rgba(255, 255, 255, 0.06);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 18px rgba(229, 9, 20, 0.3);
+    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.icono-usuario:hover,
+.icono-usuario:focus-visible {
+    outline: none;
+    border-color: var(--dorado);
+    color: var(--dorado);
+    box-shadow: 0 0 22px rgba(245, 197, 24, 0.45);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.icono-usuario.con-foto svg {
+    display: none;
+}
+
+.menu-principal {
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px 50px;
+}
+
+.titulo-menu {
+    margin-bottom: 28px;
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.seccion {
+    margin-bottom: 30px;
+    padding: 26px;
+    background: var(--fondo-tarjeta);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: aparecer 0.6s ease both;
+}
+
+.seccion h3 {
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 4px solid var(--rojo);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjeta clicable: sirve para <a> (película) y <button> (menú) */
+.tarjeta {
+    display: block;
+    padding: 10px;
+    font: inherit;
+    text-align: left;
+    color: var(--texto);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.tarjeta:hover,
+.tarjeta:focus-visible {
+    outline: none;
+    transform: translateY(-6px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--rojo);
+    box-shadow: 0 14px 30px rgba(229, 9, 20, 0.3);
+}
+
+.tarjeta-img {
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.tarjetas.cuadradas .tarjeta-img {
+    aspect-ratio: 1 / 1;
+}
+
+.tarjeta-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.tarjeta:hover .tarjeta-img img,
+.tarjeta:focus-visible .tarjeta-img img {
+    transform: scale(1.06);
+}
+
+.tarjeta-titulo {
+    display: block;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.tarjeta-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: 14px;
+    color: var(--texto-suave);
+}
+
+.tarjetas.cuadradas .tarjeta-sub {
+    color: var(--dorado);
+    font-weight: 700;
+}
+
+/* Detalle de menú (usa el estilo base de <dialog>) */
+dialog h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+dialog .menu-precio {
+    margin-top: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dorado);
+}
+
+/* Aviso flotante */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 20px);
+    padding: 12px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--texto);
+    background: #17171f;
+    border: 1px solid var(--dorado);
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 520px) {
+    .icono-usuario {
+        right: 14px;
+        width: 40px;
+        height: 40px;
+    }
+    .titulo-menu { font-size: 24px; }
+    .seccion { padding: 18px; }
+    .tarjetas {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 14px;
+    }
+}
+
+/* =====================================================
+   PAGO (pago.html)
+   ===================================================== */
+.pago-box {
+    max-width: 560px;
+}
+
+.pago-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.pago-cabecera h2 {
+    margin: 0;
+    text-align: left;
+}
+
+.precio-total {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--dorado);
+    white-space: nowrap;
+}
+
+/* Resumen del pedido */
+.resumen-lineas {
+    margin-bottom: 26px;
+    list-style: none;
+}
+
+.resumen-lineas li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    font-size: 15px;
+    color: var(--texto-suave);
+    border-bottom: 1px dashed var(--borde);
+}
+
+.resumen-lineas li small {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    color: #7d7d8c;
+}
+
+.resumen-lineas li span:last-child {
+    color: var(--texto);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.resumen-lineas li.descuento span {
+    color: var(--verde);
+}
+
+/* Usar puntos */
+.fila-puntos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.check input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--rojo);
+    cursor: pointer;
+}
+
+.check input:disabled,
+.check input:disabled + span {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.puntos-disponibles {
+    color: var(--texto-suave);
+}
+
+.puntos-disponibles strong {
+    color: var(--dorado);
+}
+
+.nota-puntos {
+    min-height: 20px;
+    margin-bottom: 22px;
+    font-size: 13px;
+    color: var(--texto-suave);
+}
+
+/* Confirmación de pago */
+.confirmacion {
+    text-align: center;
+}
+
+.confirmacion[hidden],
+#seccion-pago[hidden] {
+    display: none;
+}
+
+.confirmacion-icono {
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 20px;
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--verde);
+    border: 3px solid var(--verde);
+    border-radius: 50%;
+    background: rgba(61, 220, 132, 0.1);
+    box-shadow: 0 0 30px rgba(61, 220, 132, 0.3);
+}
+
+.confirmacion h2 {
+    margin-bottom: 14px;
+}
+
+.confirmacion-texto {
+    margin-bottom: 8px;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.confirmacion-ref {
+    margin-bottom: 28px;
+    font-size: 14px;
+    color: var(--texto-suave);
+}
+
+.confirmacion-ref strong {
+    color: var(--dorado);
+    letter-spacing: 1px;
+}
+
+.btn-enlace {
+    display: block;
+    margin-bottom: 0;
+    text-align: center;
+    text-decoration: none;
+}
+
+@media (max-width: 520px) {
+    .pago-cabecera {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
+
+/* ---------- Mensajes del formulario (login / registro) ---------- */
+.mensaje:not(:empty) {
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    background: rgba(229, 9, 20, 0.15);
+    border: 1px solid rgba(229, 9, 20, 0.5);
+    color: #ff8a90;
+    animation: aparecer 0.3s ease both;
+}
+
+.mensaje.ok:not(:empty) {
+    background: rgba(61, 220, 132, 0.12);
+    border-color: rgba(61, 220, 132, 0.5);
+    color: var(--verde);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
+/* ---------- Animación ---------- */
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 700px) {
+    .perfil-layout {
+        flex-direction: column;
+        gap: 28px;
+    }
+    .perfil-box h2 {
+        text-align: center;
+    }
+    .datos {
+        width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .main-header h1 { font-size: 22px; letter-spacing: 4px; }
+    .login-box { padding: 32px 22px; }
 }
