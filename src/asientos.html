@@ -5,12 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Santiago">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="asientos.js" defer></script>
 </head>
-<body>
-    <h>SineKerido</h>
+<body class="login-body">
+    <header class="main-header">
+        <h1>SineKerido</h1>
+
+        <!-- Icono de usuario (clicable): va al login o al perfil según haya sesión -->
+        <a href="login.html" class="icono-usuario" id="enlace-usuario" title="Iniciar sesión" aria-label="Iniciar sesión">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
+            </svg>
+        </a>
+    </header>
     <canvas id="select-seats" width="500" height="500"></canvas>
     <p id="selected-seats"></p>
-    <button id="payment-button">Pagar</button>
+    <button id="payment-button" class="btn-submit">Pagar</button>
 </body>
 </html>

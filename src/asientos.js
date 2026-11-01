@@ -46,9 +46,6 @@ class Seating {
         return this.seats.find(seat => seat.row === row && seat.col === col);  // if that didn't work
     }
 
-    draw() {
-        this.seats.forEach(seat => { seat.draw() });
-    }
 }
 
 class SeatingRenderer {
@@ -115,7 +112,7 @@ class SeatingController {
 function loadSeating(id) {
     // Lo debería buscar de la base de datos. PLACEHOLDER
     // {numberOfRows: int, numberOfColumns: int, seats:[{row: int, col: int, state: state}, ...]}
-    let data = generateSeating(10, 10);
+    let data = generateSeating(20, 20);
     return data;
 }
 
